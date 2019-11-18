@@ -9,12 +9,12 @@ import java.util.List;
 
 public class TripService {
 
-    public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
+    public List<Trip> getTripsByUser(final User user) throws UserNotLoggedInException {
         List<Trip> tripList = new ArrayList<>();
-        User loggedUser = UserSession.getInstance().getLoggedUser();
+        final User loggedUser = getLoggedUser();
         boolean isFriend = false;
         if (loggedUser != null) {
-            for (User friend : user.getFriends()) {
+            for (final User friend : user.getFriends()) {
                 if (friend.equals(loggedUser)) {
                     isFriend = true;
                     break;
@@ -27,6 +27,10 @@ public class TripService {
         } else {
             throw new UserNotLoggedInException();
         }
+    }
+
+    protected User getLoggedUser() {
+        return UserSession.getInstance().getLoggedUser();
     }
 
 }
