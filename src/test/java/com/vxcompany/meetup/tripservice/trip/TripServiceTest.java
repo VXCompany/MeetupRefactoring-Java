@@ -2,6 +2,7 @@ package com.vxcompany.meetup.tripservice.trip;
 
 import com.vxcompany.meetup.tripservice.exception.UserNotLoggedInException;
 import com.vxcompany.meetup.tripservice.user.User;
+import com.vxcompany.meetup.tripservice.user.UserBuilder;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -37,9 +38,10 @@ class TripServiceTest {
     @Test
     void should_return_trips_from_friends() {
         final TripService tripService = new TestableTripService(REGISTERED_USER);
-        final User befriendedUser = new User();
-        befriendedUser.addFriend(REGISTERED_USER);
-        befriendedUser.addTrip(TO_BAARN);
+        final User befriendedUser = UserBuilder.aUser()
+                .withFriends(REGISTERED_USER, A_USER)
+                .withTrips(TO_BAARN)
+                .build();
 
         final List<Trip> trips = tripService.getTripsByUser(befriendedUser);
 
